@@ -7,6 +7,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.gomaa.marvelapp.R
 import com.gomaa.marvelapp.base.presentation.BaseRecyclerView
+import com.gomaa.marvelapp.base.util.loadImage
 import com.gomaa.marvelapp.features.list_characters.domain.model.entity.CharacterEntity
 import com.gomaa.marvelapp.features.list_characters.presentation.view.listener.OnCharacterClickedListener
 import kotlinx.android.synthetic.main.item_list_characters.view.*
@@ -51,13 +52,5 @@ class ListCharactersAdapter @Inject constructor(
         }
     }
 
-    fun <T> loadImage(context: Context, image: T, imageView: ImageView) {
-        Glide.with(context)
-            .load(image)
-            .placeholder(R.drawable.image_placeholder)
-            .into(imageView)
-
-
-    }
 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Marvel App</string>
+    <string name="description">الوصف</string>
+    <string name="comics">كاريكاتير</string>
+    <string name="events">الفاعليات</string>
+    <string name="stories">القصص</string>
+    <string name="series">المسلسلات</string>
+    <string name="search_for_a_character">ابحث عن شخصية…</string>
+    <string name="cancel">الغاء</string>
+</resources>
