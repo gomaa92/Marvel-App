@@ -4,8 +4,8 @@ import com.gomaa.marvelapp.features.list_characters.domain.model.entity.ListChar
 
 interface ListCharactersRepository {
     suspend fun getListCharacters(
-        limit: Int,
-        offset: Int,
+        limit: Int?,
+        offset: Int?,
         name: String?,
     ): ListCharactersResponse?
 

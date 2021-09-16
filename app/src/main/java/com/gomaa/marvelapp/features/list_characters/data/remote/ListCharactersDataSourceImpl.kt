@@ -7,8 +7,8 @@ import javax.inject.Inject
 class ListCharactersDataSourceImpl @Inject constructor(private val service: ListCharactersService) :
     ListCharactersDataSource {
     override suspend fun getListCharacters(
-        limit: Int,
-        offset: Int,
+        limit: Int?,
+        offset: Int?,
         name: String?
     ): ListCharactersResponse? {
         return service.getListCharacters(

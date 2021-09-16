@@ -30,6 +30,7 @@ class CharacterDetailsAdapter :
                 }
             val adapter = SectionsAdapter()
             itemView.sectionRecyclerView.adapter = adapter
+
             adapter.addItems(item.items)
         }
     }

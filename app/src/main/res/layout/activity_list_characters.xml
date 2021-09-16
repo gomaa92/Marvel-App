@@ -10,17 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_bg"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/toolbarLogo"
-            android:layout_width="120dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="160dp"
+            android:layout_height="@dimen/_64sdp"
             android:src="@drawable/marvel_logo"
+            app:tint="@color/red_b6151c"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
@@ -68,4 +67,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:id="@+id/homeForegroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/search_bg_color"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

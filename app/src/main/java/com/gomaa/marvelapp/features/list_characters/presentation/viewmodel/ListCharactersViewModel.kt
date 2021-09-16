@@ -16,14 +16,21 @@ import javax.inject.Inject
 class ListCharactersViewModel @Inject constructor(private val useCase: ListCharactersUseCase) :
     ViewModel() {
     private val listCharactersLiveData = MutableLiveData<ListCharactersResponse?>()
+    private val listSearchCharactersLiveData = MutableLiveData<ListCharactersResponse?>()
     private var offset = -1
     fun setOffset(offset: Int) {
         this.offset = offset
 
     }
 
-    fun listCharacters(name: String? = null) {
+    fun listCharacters(name: String? = null, isSearch: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
+            if (isSearch) {
+                listSearchCharactersLiveData.postValue(
+                    useCase.execute(ListCharactersParams(null, null, name))
+                )
+                return@launch
+            }
             listCharactersLiveData.postValue(
                 useCase.execute(ListCharactersParams(LIMIT_PAGE_COUNT, ++offset, name))
             )
@@ -31,4 +38,5 @@ class ListCharactersViewModel @Inject constructor(private val useCase: ListChara
     }
 
     fun getListCharactersLiveDate() = listCharactersLiveData
+    fun getListSearchCharactersLiveDate() = listSearchCharactersLiveData
 }

@@ -1,10 +1,7 @@
 package com.gomaa.marvelapp.features.list_characters.presentation.view.adapter
 
-import android.content.Context
-import android.util.Log
+
 import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.gomaa.marvelapp.R
 import com.gomaa.marvelapp.base.presentation.BaseRecyclerView
 import com.gomaa.marvelapp.base.util.loadImage
@@ -33,17 +30,12 @@ class ListCharactersAdapter @Inject constructor(
             itemView.setOnClickListener {
                 mListener.onCharacterClicked(item)
             }
-            Log.d(
-                "ListCharactersView",
-                "onBind: ${item.thumbnail.path}.${item.thumbnail.extension}"
-            )
 
             loadImage(
                 itemView.context,
                 "${item.thumbnail.path}.${item.thumbnail.extension}",
                 itemView.characterImageView
             )
-
 
 
             itemView.characterTitleTextView.text = item.name

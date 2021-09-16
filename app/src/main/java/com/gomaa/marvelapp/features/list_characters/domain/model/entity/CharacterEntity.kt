@@ -14,5 +14,6 @@ data class CharacterEntity(
     @SerializedName("series") val series: SeriesEntity?,
     @SerializedName("stories") val stories: StoriesEntity?,
     @SerializedName("events") val events: EventsEntity?,
-    @SerializedName("urls") val urls: List<UrlsEntity>
+    @SerializedName("urls") val urls: List<UrlsEntity>,
+    var searchText: String = ""
 ) : Serializable

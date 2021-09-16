@@ -6,5 +6,5 @@ object EndPointConfig {
     const val HASH = "9aca3405e3be435a7a7e069062a81ccb"
 
     const val CHARACTERS = "characters"
-    const val CHARACTERS_DETAILS = "characters/{characterId}"
+    const val CHARACTERS_DETAILS = "characters/{characterId}/comics"
 }
