@@ -75,4 +75,8 @@ dependencies {
     //swipe refresh
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+
+
+
 }

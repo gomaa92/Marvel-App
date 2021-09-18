@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.gomaa.marvelapp.R
 import com.gomaa.marvelapp.base.util.LIMIT_PAGE_COUNT
 import com.gomaa.marvelapp.features.character_details.presentation.view.CharacterDetailsActivity
@@ -15,8 +14,7 @@ import com.gomaa.marvelapp.features.list_characters.presentation.view.listener.O
 import com.gomaa.marvelapp.features.list_characters.presentation.viewmodel.ListCharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_list_characters.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.toolbar.*
 
 const val EXTRA_CHARACTER = "EXTRA_CHARACTER"
 
@@ -75,19 +73,17 @@ class ListCharactersActivity : AppCompatActivity(), OnCharacterClickedListener {
         search.setOnClickListener {
             val intent = Intent(this, SearchCharactersActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_out_bottom, R.anim.slide_in_bottom)
+
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        homeForegroundColor.visibility = View.GONE
-    }
 
     override fun onCharacterClicked(item: CharacterEntity) {
-        homeForegroundColor.visibility = View.VISIBLE
         val intent = Intent(this, CharacterDetailsActivity::class.java)
         intent.putExtra(EXTRA_CHARACTER, item.id)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_out_bottom, R.anim.slide_in_bottom)
 
     }
 }

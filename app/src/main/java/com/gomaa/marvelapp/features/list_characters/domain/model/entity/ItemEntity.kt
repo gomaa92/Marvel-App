@@ -5,5 +5,6 @@ import java.io.Serializable
 
 data class ItemEntity(
     @SerializedName("resourceURI") val resourceURI: String,
-    @SerializedName("name") val name: String
-):Serializable
+    @SerializedName("name") val name: String,
+    var thumbnail: ThumbnailEntity?
+) : Serializable

@@ -10,15 +10,20 @@ import com.gomaa.marvelapp.features.character_details.presentation.viewmodel.Cha
 import com.gomaa.marvelapp.features.list_characters.domain.model.entity.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_character_details.*
-import java.util.*
 
 
 const val EXTRA_CHARACTER = "EXTRA_CHARACTER"
 
 @AndroidEntryPoint
-class CharacterDetailsActivity : AppCompatActivity() {
+class CharacterDetailsActivity : AppCompatActivity(), SectionsAdapter.SectionsListener {
     private val viewModel: CharacterDetailsViewModel by viewModels()
     private lateinit var mCharacterDetailsAdapter: CharacterDetailsAdapter
+    private val arts = ArrayList<SectionEntity>()
+    private var comicsSection: SectionEntity? = null
+    private var eventsSection: SectionEntity? = null
+    private var seriesSection: SectionEntity? = null
+    private var storiesSection: SectionEntity? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
@@ -26,11 +31,15 @@ class CharacterDetailsActivity : AppCompatActivity() {
         getExtra()
         bindCharacterDetails()
         onBackLayoutPressed()
+        bindComicsCharacterDetails()
+        bindEventsCharacterDetails()
+        bindSeriesCharacterDetails()
+        bindStoriesCharacterDetails()
     }
 
     private fun initRecyclerView() {
         mCharacterDetailsAdapter =
-            CharacterDetailsAdapter()
+            CharacterDetailsAdapter(this)
         artWorksRecyclerView.adapter = mCharacterDetailsAdapter
 
     }
@@ -49,6 +58,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             })
     }
 
+
     private fun bindScreenData(item: CharacterEntity) {
         characterDetailsProgressbar.visibility = View.GONE
         loadImage(this, item.thumbnail.path + "." + item.thumbnail.extension, characterImageView)
@@ -58,11 +68,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         if (item.description.isNullOrEmpty())
             characterDescriptionTitle.visibility = View.GONE
 
-        val arts = ArrayList<SectionEntity>()
-        var comicsSection: SectionEntity? = null
-        var eventsSection: SectionEntity? = null
-        var seriesSection: SectionEntity? = null
-        var storiesSection: SectionEntity? = null
+
 
         if (item.comics != null) {
             comicsSection = initComics(item.comics)
@@ -78,19 +84,35 @@ class CharacterDetailsActivity : AppCompatActivity() {
             storiesSection = initStories(item.stories)
         }
 
-        if (comicsSection != null && !comicsSection.items.isNullOrEmpty())
-            arts.add(comicsSection)
-        if (storiesSection != null && !storiesSection.items.isNullOrEmpty())
-            arts.add(storiesSection)
-        if (seriesSection != null && !seriesSection.items.isNullOrEmpty())
-            arts.add(seriesSection)
-        if (eventsSection != null && !eventsSection.items.isNullOrEmpty())
-            arts.add(eventsSection)
-        if (!arts.isNullOrEmpty())
-            mCharacterDetailsAdapter.addItems(arts)
+
+    }
+
+    private fun bindAdapterData() {
+        arts.clear()
+        if (comicsSection != null && !comicsSection!!.items.isNullOrEmpty()) {
+            arts.add(comicsSection!!)
+        }
+        if (storiesSection != null && !storiesSection!!.items.isNullOrEmpty())
+            arts.add(storiesSection!!)
+        if (seriesSection != null && !seriesSection!!.items.isNullOrEmpty())
+            arts.add(seriesSection!!)
+        if (eventsSection != null && !eventsSection!!.items.isNullOrEmpty())
+            arts.add(eventsSection!!)
+        if (!arts.isNullOrEmpty()) {
+            mCharacterDetailsAdapter.setItems(arts)
+        }
+
     }
 
     private fun initComics(comic: ComicsEntity): SectionEntity {
+        val ids = ArrayList<String>()
+        comic.items?.forEach {
+            ids.add(it.resourceURI.substringAfterLast("/"))
+        }
+        viewModel.getComicsItemDetails(ids)
+
+
+
         return SectionEntity(
             getString(R.string.comics),
             comic.available,
@@ -101,7 +123,57 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     }
 
+    private fun bindComicsCharacterDetails() {
+        viewModel.getComicsDetailsLiveDate()
+            .observe(this, { response ->
+                comicsSection?.items?.forEachIndexed { index, itemEntity ->
+                    itemEntity.thumbnail = response[index]?.data?.results!![0].thumbnail
+                }
+                bindAdapterData()
+
+            })
+    }
+
+    private fun bindEventsCharacterDetails() {
+        viewModel.getEventsDetailsLiveDate()
+            .observe(this, { response ->
+                eventsSection?.items?.forEachIndexed { index, itemEntity ->
+                    itemEntity.thumbnail = response[index]?.data?.results!![0].thumbnail
+                }
+                bindAdapterData()
+
+            })
+    }
+
+    private fun bindSeriesCharacterDetails() {
+        viewModel.getSeriesDetailsLiveDate()
+            .observe(this, { response ->
+                seriesSection?.items?.forEachIndexed { index, itemEntity ->
+                    itemEntity.thumbnail = response[index]?.data?.results!![0].thumbnail
+                }
+                bindAdapterData()
+
+            })
+    }
+
+    private fun bindStoriesCharacterDetails() {
+        viewModel.getStoriesDetailsLiveDate()
+            .observe(this, { response ->
+                storiesSection?.items?.forEachIndexed { index, itemEntity ->
+                    itemEntity.thumbnail = response[index]?.data?.results!![0].thumbnail
+                }
+                bindAdapterData()
+
+            })
+    }
+
     private fun initEvents(event: EventsEntity): SectionEntity {
+        val ids = ArrayList<String>()
+        event.items?.forEach {
+            ids.add(it.resourceURI.substringAfterLast("/"))
+        }
+        viewModel.getEventsItemDetails(ids)
+
         return SectionEntity(
             getString(R.string.events),
             event.available,
@@ -113,6 +185,12 @@ class CharacterDetailsActivity : AppCompatActivity() {
     }
 
     private fun initStories(story: StoriesEntity): SectionEntity {
+        val ids = ArrayList<String>()
+        story.items?.forEach {
+            ids.add(it.resourceURI.substringAfterLast("/"))
+        }
+        viewModel.getStoriesItemDetails(ids)
+
         return SectionEntity(
             getString(R.string.stories),
             story.available,
@@ -124,6 +202,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
     }
 
     private fun initSeries(series: SeriesEntity): SectionEntity {
+        val ids = ArrayList<String>()
+        series.items?.forEach {
+            ids.add(it.resourceURI.substringAfterLast("/"))
+        }
+        viewModel.getSeriesItemDetails(ids)
         return SectionEntity(
             getString(R.string.series),
             series.available,
@@ -138,5 +221,12 @@ class CharacterDetailsActivity : AppCompatActivity() {
         backLayout.setOnClickListener {
             super.onBackPressed()
         }
+    }
+
+    override fun onItemPressed(item: ItemEntity) {
+        val url = item.thumbnail?.path + "." + item.thumbnail?.extension
+
+        OverlayFragment.newInstance(url).show(supportFragmentManager, OverlayFragment.TAG)
+
     }
 }

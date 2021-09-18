@@ -4,8 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.gomaa.marvelapp.R
 import com.gomaa.marvelapp.features.list_characters.presentation.view.activity.ListCharactersActivity
+import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -17,6 +21,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         loadSplashScreen()
+        blur()
     }
 
     private fun loadSplashScreen() {
@@ -26,5 +31,12 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun blur() {
+        Glide.with(this).load(R.drawable.mcu_background)
+            .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
+            .into(background)
+
     }
 }

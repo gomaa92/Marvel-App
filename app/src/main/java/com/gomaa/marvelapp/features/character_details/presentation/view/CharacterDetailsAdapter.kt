@@ -7,7 +7,7 @@ import com.gomaa.marvelapp.R
 import com.gomaa.marvelapp.base.presentation.BaseRecyclerView
 import kotlinx.android.synthetic.main.item_character_details.view.*
 
-class CharacterDetailsAdapter :
+class CharacterDetailsAdapter(val sectionListener: SectionsAdapter.SectionsListener? = null) :
     BaseRecyclerView<SectionEntity, BaseRecyclerView.BaseRecyclerViewHolder<SectionEntity>>() {
     override fun getLayout(type: Int): Int {
         return R.layout.item_character_details
@@ -28,7 +28,7 @@ class CharacterDetailsAdapter :
                         return super.checkLayoutParams(lp)
                     }
                 }
-            val adapter = SectionsAdapter()
+            val adapter = SectionsAdapter(sectionListener)
             itemView.sectionRecyclerView.adapter = adapter
 
             adapter.addItems(item.items)

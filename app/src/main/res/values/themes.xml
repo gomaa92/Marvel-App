@@ -52,4 +52,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/search_bg_color</item>
 
     </style>
+    <style name="NewDialog" parent="Theme.MarvelApp">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

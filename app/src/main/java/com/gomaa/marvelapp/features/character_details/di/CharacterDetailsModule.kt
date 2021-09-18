@@ -3,7 +3,7 @@ package com.gomaa.marvelapp.features.character_details.di
 import com.gomaa.marvelapp.features.character_details.data.remote.CharacterDetailsRemoteDataSource
 import com.gomaa.marvelapp.features.character_details.data.remote.CharacterDetailsRemoteDataSourceImpl
 import com.gomaa.marvelapp.features.character_details.data.repository.CharacterDetailsRepositoryImpl
-import com.gomaa.marvelapp.features.character_details.domain.CharacterDetailsRepository
+import com.gomaa.marvelapp.features.character_details.domain.reposiory.CharacterDetailsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
